@@ -1,5 +1,4 @@
 defmodule SocketPicturesWeb.PicturesLive do
-  require IEx
   use Phoenix.LiveView
 
   @pictures %{
@@ -20,9 +19,8 @@ defmodule SocketPicturesWeb.PicturesLive do
       img: "https://images.unsplash.com/photo-1547892549-e197e0456244"
     }
   }
-
   def mount(_params, _session, socket) do
-    socket = assign(socket, selected_picture: nil, foo: "")
+    socket = assign(socket, :selected_picture, nil)
     {:ok, socket}
   end
 
@@ -35,8 +33,8 @@ defmodule SocketPicturesWeb.PicturesLive do
         <%= for {id, pic} <- pics do %>
           <div class="column" phx-click="show" phx-value-id="<%= id %>">
             <%= pic.author %>
-            <div class=""><%= id %></div>
-            <img src="<%= picture_url(pic.img, :thumb) %>">
+            <div class="text-sm"><%= id %></div>
+            <img class="w-64 object-cover h-32" src="<%= picture_url(pic.img, :thumb) %>">
           </div>
         <% end %>
       </div>
@@ -53,7 +51,6 @@ defmodule SocketPicturesWeb.PicturesLive do
   def handle_event("show", %{"id" => id}, socket) do
     pic = @pictures[id]
     socket = assign(socket, :selected_picture, pic)
-    socket = assign(socket, :foo, "bar")
     {:noreply, socket}
   end
 
