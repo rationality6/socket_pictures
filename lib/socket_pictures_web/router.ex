@@ -19,6 +19,7 @@ defmodule SocketPicturesWeb.Router do
 
     # live "/", NavigationLive
     live "/", PicturesLive
+    live "/pictures/:id", PicturesLive
   end
 
   # Other scopes may use custom stacks.

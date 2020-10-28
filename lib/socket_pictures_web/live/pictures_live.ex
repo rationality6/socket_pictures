@@ -1,6 +1,8 @@
 defmodule SocketPicturesWeb.PicturesLive do
   use Phoenix.LiveView
 
+  alias SocketPicturesWeb.Router.Helpers, as: Routes
+
   @pictures %{
     "ySMOWp3oBZk" => %{
       author: "Ludomił",
@@ -31,6 +33,7 @@ defmodule SocketPicturesWeb.PicturesLive do
     ~L"""
       <div style="display:flex">
         <%= for {id, pic} <- pics do %>
+
           <div class="column" phx-click="show" phx-value-id="<%= id %>">
             <%= pic.author %>
             <div class="text-sm"><%= id %></div>
@@ -49,12 +52,27 @@ defmodule SocketPicturesWeb.PicturesLive do
   end
 
   def handle_event("show", %{"id" => id}, socket) do
-    pic = @pictures[id]
-    socket = assign(socket, :selected_picture, pic)
-    {:noreply, socket}
+    {:noreply,
+    push_redirect(
+        socket,
+        to: Routes.live_path(socket, SocketPicturesWeb.PicturesLive, id)
+      )
+    }
   end
 
   defp picture_url(img, :thumb), do: "#{img}?w=250fit=crop"
 
   defp picture_url(img, :big), do: "#{img}?w=800&h=500fit=crop"
+
+  def handle_params(%{"id" => id}, _uri, socket) do
+    picture = @pictures[id]
+    {:noreply, assign(socket, :selected_picture, picture)}
+  end
+
+  def handle_params(_, _uri, socket) do
+    {:noreply, assign(socket, :selected_picture, nil)}
+  end
+
+
+
 end
