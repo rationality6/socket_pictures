@@ -2,8 +2,8 @@ defmodule SocketPicturesWeb.MoonLive do
   use Phoenix.LiveView
   alias SocketPicturesWeb.Router.Helpers, as: Routes
 
-  @moons ["🌑", "🌒", "🌓", "🌔", "🌝", "🌖", "🌗", "🌘"]
-  @moons_count Enum.count(@moons)
+  defp moons(), do: ["🌑", "🌒", "🌓", "🌔", "🌝", "🌖", "🌗", "🌘"]
+  defp moons_count(), do: moons() |> Enum.count()
 
   def render(assigns) do
     ~L"""
@@ -53,10 +53,8 @@ defmodule SocketPicturesWeb.MoonLive do
   end
 
   def handle_info(:next_moon, socket) do
-    moons = @moons
-    count = @moons_count
-    idx = rem(socket.assigns.moon_idx, count)
-    moon = Enum.at(moons, idx)
+    idx = rem(socket.assigns.moon_idx, moons_count())
+    moon = Enum.at(moons(), idx)
     socket = assign(socket, :moon_idx, idx + 1)
 
     {:noreply,
