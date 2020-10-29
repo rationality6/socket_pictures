@@ -17,9 +17,11 @@ defmodule SocketPicturesWeb.Router do
   scope "/", SocketPicturesWeb do
     pipe_through :browser
 
-    # live "/", NavigationLive
     live "/", PicturesLive
     live "/pictures/:id", PicturesLive
+
+    live "/moon", MoonLive
+    live "/moon/:moon", MoonLive
   end
 
   # Other scopes may use custom stacks.
