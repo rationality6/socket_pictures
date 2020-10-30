@@ -22,6 +22,12 @@ defmodule SocketPicturesWeb.Router do
 
     live "/moon", MoonLive
     live "/moon/:moon", MoonLive
+
+    live "/clock", ClockLive
+    live "/pacman", PacmanLive
+    live "/rainbow", RainbowLive
+
+    live "/thermostat", ThermostatLive
   end
 
   # Other scopes may use custom stacks.
