@@ -35,6 +35,7 @@ defmodule SocketPicturesWeb.ThermostatLive do
   end
 
   def handle_event("dec", _, socket) do
+    if socket.assigns.val <= 67, do: raise("cold")
     {:noreply, update(socket, :val, &(&1 - 1))}
   end
 
